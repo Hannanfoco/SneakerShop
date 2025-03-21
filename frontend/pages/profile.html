@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <h2 class="text-center">👤 Your Profile</h2>
+
+    <div class="profile-card text-center p-4 bg-light shadow-sm rounded">
+        <img id="profileImage" src="assets/images/default-profile.png" class="rounded-circle mb-3" style="width: 100px;">
+        <h3>John Doe</h3>
+        <p>Email: johndoe@example.com</p>
+        <p>Address: 123 Sneaker Street, NYC</p>
+        <button class="btn btn-primary mt-3">Edit Profile</button>
+    </div>
+
+    <!-- Order History Table -->
+    <div class="mt-5">
+        <h3 class="text-center">📦 Order History</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center shadow-lg">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="order-history-body">  <!-- ✅ THIS MUST MATCH profile.js -->
+                    <!-- Orders will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

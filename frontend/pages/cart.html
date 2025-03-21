@@ -1,0 +1,26 @@
+<div class="container mt-5">
+    <h2 class="text-center">🛒 Your Shopping Cart</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle shadow-lg">
+            <thead class="bg-dark text-warning">
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items-container"></tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <h4 class="fw-bold">Total: <span id="cart-total">$0.00</span></h4>
+        <button class="btn btn-warning text-dark fw-bold mt-3 px-4 py-2 shadow-sm" onclick="goToPayment()">Proceed to Checkout</button>
+    </div>
+</div>
+
+

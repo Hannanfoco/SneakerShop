@@ -1,0 +1,525 @@
+.hero {
+
+    height: auto;
+    position: relative;
+    text-align: center;
+    color: white;
+    overflow: hidden; /* Prevents horizontal scrolling */
+}
+
+.hero img {
+    width: 100vw !important;  /* Ensures full width */
+    max-width: 100% !important;
+    height: auto;
+    display: block;
+    object-fit: cover; /* Ensures the image fills the space */
+}
+
+
+
+
+
+
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 7%; 
+    color: black;
+    transform: translateY(-50%); /* Centers it vertically */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    max-width: 40%; /* Prevents text from stretching too much */
+}
+
+.hero-text h1 {
+    font-size: 4rem;
+    font-weight: 800; 
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Soft shadow */
+
+}
+
+
+.hero-text p {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3); /* Soft shadow */
+}
+
+
+.hero-text .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .hero-text {
+        left: 5%;
+        max-width: 90%;
+        text-align: center;
+    }
+}
+
+
+.btn-primary {
+    background-color: #efd64b !important;
+    border-color: #efd64b !important;
+    color: black !important;
+}
+
+.btn-primary:hover {
+    background-color: #000000 !important; 
+    border-color: #000000 !important; 
+    color: #EFD64B !important; 
+}
+
+/* Improved Banner Separator */
+.banner-separator {
+    background: black;
+    color: white;
+    text-align: center;
+    font-size: 2rem; /* Larger text */
+    font-weight: bold;
+    padding: 50px 0; /* Increased height */
+    margin: -5px 0 50px 0; /* Adjusted spacing */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+    border-top: 3px solid #FFD700; /* Gold top border */
+    border-bottom: 3px solid #FFD700; /* Gold bottom border */
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+/* Better Text Styling */
+.banner-separator p {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    background: linear-gradient(to right, #FFD700, #FFC107); /* Smooth gold gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+    font-size: 1.5rem; /* Adjust size if needed */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+
+
+/* Make Cards Consistent */
+.card {
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Ensure Images Fit Nice */
+.card-img-top {
+    height: 250px; /* Set a fixed height */
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Wishlist Heart Icon */
+.fa-heart {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.fa-heart:hover {
+    color: red;
+}
+
+/* Yellow Add to Cart Button */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Adjust column width for different screen sizes */
+@media (min-width: 992px) {  /* (3 per row) */
+    .col-lg-4 {
+        flex: 0 0 calc(33.333% - 20px);
+        max-width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 992px) { /* Medium screens (2 per row) */
+    .col-md-6 {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) { /* Small screens (1 per row) */
+    .col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Improve Featured Sneakers Section */
+.featured-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+}
+
+/* Add stylish underline effect */
+.featured-title::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background: #FFD700;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+
+/* Adjust spacing and width of cards */
+@media (min-width: 992px) {  /* Large screens (3 per row) */
+    .col-lg-4 {
+        flex: 0 0 calc(33.333% - 20px);
+        max-width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 991px) { /* Medium screens (2 per row) */
+    .col-md-6 {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 767px) { /* Small screens (1 per row) */
+    .col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Add spacing to login/signup section */
+#login, #signup {
+    margin-top: 50px; /* Adds space between banner & form */
+    padding: 50px 0; /* Adds top & bottom padding */
+}
+
+/* Ensure container is centered */
+.login-form, .signup-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ensures it does not overlap */
+    z-index: 10; /* Makes sure it appears correctly */
+}
+
+/* Prevent overlap with banner */
+.banner-separator {
+    position: relative;
+    z-index: 5; /* Keeps it below forms */
+}
+
+/* Ensure spacing when showing forms */
+.page-section {
+    min-height: 80vh; /* Ensures enough space for forms */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Profile Page Styling */
+.profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.profile-header {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.profile-header h2 {
+    font-weight: bold;
+}
+
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #FFD700;
+    margin-bottom: 10px;
+}
+
+.profile-header input[type="file"] {
+    display: block;
+    margin: 10px auto;
+}
+
+.profile-name {
+    font-weight: bold;
+    color: #FFA500;
+    font-size: 1.3rem;
+}
+
+.profile-email {
+    color: #777;
+    font-size: 1rem;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-card h3 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.profile-card h3 i {
+    margin-right: 8px;
+    color: #F39C12;
+}
+
+.profile-card p {
+    margin: 5px 0;
+}
+
+.profile-card .edit-btn {
+    background: #FFD700;
+    border: none;
+    color: #000;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-card .edit-btn:hover {
+    background: #FFC300;
+}
+
+/* Order History Table */
+.order-history {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-history th, .order-history td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-history th {
+    background: #333;
+    color: #fff;
+}
+
+.order-history .status-delivered {
+    color: green;
+    font-weight: bold;
+}
+
+.order-history .status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+/* Account Settings */
+.account-settings {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.account-settings .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.account-settings .btn-change {
+    background: #FFD700;
+    color: black;
+    border: none;
+}
+
+.account-settings .btn-change:hover {
+    background: #FFC300;
+}
+
+.account-settings .btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+}
+
+.account-settings .btn-delete:hover {
+    background: #c0392b;
+}
+/* Footer Styling */
+footer {
+    background: #222;
+    color: white;
+    padding: 40px 0;
+    font-size: 14px;
+}
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+.footer-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    color: #FFC300;
+    text-decoration: underline;
+}
+
+.social-icon {
+    font-size: 20px;
+    margin: 0 10px;
+    color: white;
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    color: #FFD700;
+}
+
+body,html{
+    height: 100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+main{
+    flex: 1;
+}
+footer{
+    margin-top: auto;
+}
+
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+}
+
+.mt-4 {
+    margin-top: 0% !important;
+}
+
+
+/* Search Bar */
+#searchBar {
+    font-size: 16px;
+    border-radius: 6px;
+    outline: none;
+}
+
+/* Filter Buttons */
+/* Default button style */
+.filter-btn {
+    border: 2px solid #000; /* Ensure buttons have borders */
+    background-color: white; /* Default background */
+    color: black; /* Default text color */
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background-color: black !important; /* Match 'All' button style */
+    color: white !important;
+    border-color: black;
+}
+
+
+
+/* Sneaker Cards */
+.card {
+    border-radius: 12px;
+    border: none;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    color: #000;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555555;
+}
+
+.btn-warning {
+    background-color: #FFD700;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #FFC107;
+    transform: scale(1.05);
+}
+
+.small-search {
+    width: 200px;  /* Adjust width */
+    height: 30px;  /* Adjust height */
+    font-size: 14px; /* Adjust text size */
+    padding: 5px; /* Reduce padding */
+}

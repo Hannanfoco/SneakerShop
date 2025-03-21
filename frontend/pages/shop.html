@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <h2 class="text-center fw-bold text-dark">All Sneakers</h2>
+
+    <!-- Search Bar -->
+    <div class="mb-3">
+        <input type="text" id="searchBar" class="form-control   text-dark" placeholder="🔍 Search for sneakers..." onkeyup="filterProducts()">
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="mb-4 d-flex flex-wrap gap-2 justify-content-center">
+        <button class="btn filter-btn active" data-filter="all" onclick="applyFilter('all')">All</button>
+        <button class="btn filter-btn " data-filter="Nike" onclick="applyFilter('Nike')">Nike</button>
+        <button class="btn filter-btn" data-filter="Adidas" onclick="applyFilter('Adidas')">Adidas</button>
+        <button class="btn filter-btn" data-filter="Puma" onclick="applyFilter('Puma')">Puma</button>
+        <button class="btn filter-btn" data-filter="under-100" onclick="applyFilter('under-100')">Under $100</button>
+        <button class="btn filter-btn" data-filter="100-150" onclick="applyFilter('100-150')">$100 - $150</button>
+        <button class="btn filter-btn" data-filter="above-150" onclick="applyFilter('above-150')">Above $150</button>
+    </div>
+
+    <!-- Sneaker Cards -->
+    <div class="row" id="shop-product-container"></div>
+</div>
