@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Shop</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/spapp.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Local Fallback for jQuery -->
+    <script>
+        window.jQuery || document.write('<script src="assets/js/jquery.min.js"><\/script>')
+    </script>
+
+    <!-- Load SPAPP -->
+    <script src="assets/js/jquery.spapp.min.js"></script>
+    <script src="assets/js/spapp-config.js"></script>
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#home">SneakerShop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#shop">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#favorites">Favorites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white px-3" href="#login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="spapp" class="container-fluid ">
+        <section id="home" data-load="pages/home.html"></section>
+        <section id="shop" data-load="pages/shop.html"></section>
+        <section id="cart" data-load="pages/cart.html"></section>
+        <section id="favorites" data-load="pages/favorites.html"></section>
+        <section id="profile" data-load="pages/profile.html"></section>
+        <section id="login" data-load="pages/login.html"></section>
+        <section id="signup" data-load="pages/signup.html"></section>
+        <section id="payment" data-load="pages/payment.html"></section>
+        <section id="product-details" data-load="product-details.html"></section>
+
+    </main>
+
+    <!-- Footer -->
+  <!-- Footer -->
+<!-- Footer -->
+<footer style="background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: auto;">
+        <p style="font-size: 18px; font-weight: bold;">&copy; 2025 SneakerShop. All rights reserved.</p>
+        
+        <div style="margin: 15px 0;">
+            <a href="#home" style="color: white; text-decoration: none; margin: 0 10px;">Home</a> | 
+            <a href="#shop" style="color: white; text-decoration: none; margin: 0 10px;">Shop</a> | 
+            <a href="#cart" style="color: white; text-decoration: none; margin: 0 10px;">Cart</a> | 
+            <a href="#favorites" style="color: white; text-decoration: none; margin: 0 10px;">Favorites</a> | 
+            <a href="#profile" style="color: white; text-decoration: none; margin: 0 10px;">Profile</a> | 
+            <a href="#login" style="color: white; text-decoration: none; margin: 0 10px;">Login</a>
+        </div>
+
+        <p style="font-size: 14px; margin-top: 15px;">Designed with ❤️ by SneakerShop Dev Team</p>
+    </div>
+</footer>
+
+
+
+
+    <!-- Other Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/spapp-config.js"></script>
+    <script src="assets/js/shop.js"></script>
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/favorites.js"></script>
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/profile.js"></script>
+    <script src="assets/js/product-details.js"></script>
+
+
+
+</body>
+</html>
