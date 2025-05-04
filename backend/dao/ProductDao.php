@@ -17,5 +17,17 @@ class ProductDao extends BaseDao {
         $stmt->execute([':price' => $price]);
         return $stmt->fetchAll();
     }
+
+    public function search($term) {
+        $stmt = $this->connection->prepare("
+            SELECT * FROM products
+            WHERE name LIKE :term OR description LIKE :term
+        ");
+        $stmt->execute([':term' => '%' . $term . '%']);
+        return $stmt->fetchAll();
+    }
+
 }
+
+
 ?>

@@ -1,19 +1,19 @@
 <?php
 class Database {
     private static $host = '127.0.0.1';
-    private static $dbName = 'SneakerShop'; 
-    private static $username = 'root';      
-    private static $password = 'hannan12';         
+    private static $dbName = 'SneakerShop';
+    private static $username = 'root';
+    private static $password = 'hannan12';
     private static $connection = null;
 
-    public static function connect() {
+    public static function connect(): mixed {
         if (self::$connection === null) {
             try {
                 self::$connection = new PDO(
-                    "mysql:host=" . self::$host . ";dbname=" . self::$dbName,
-                    self::$username,
-                    self::$password,
-                    [
+                    dsn: "mysql:host=" . self::$host . ";dbname=" . self::$dbName,
+                    username: self::$username,
+                    password: self::$password,
+                    options: [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                     ]
