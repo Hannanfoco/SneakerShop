@@ -1,0 +1,18 @@
+{
+    "name": "macbook/sneaker-shop",
+    "autoload": {
+        "psr-4": {
+            "Macbook\\SneakerShop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hannanfoco",
+            "email": "hannanfoco25@gmail.com"
+        }
+    ],
+    "require": {
+        "mikecao/flight": "^3.15",
+        "zircote/swagger-php": "^3.3"
+    }
+}

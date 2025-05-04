@@ -28,8 +28,8 @@ class BaseDao {
         $columns = implode(separator: ", ", array: array_keys($data));
         $placeholders = ":" . implode(separator: ", :", array: array_keys($data));
         $sql = "INSERT INTO `" . $this->table . "` ($columns) VALUES ($placeholders)";
-        $stmt = $this->connection->prepare($sql);
-        return $stmt->execute($data);
+        $stmt = $this->connection->prepare(query: $sql);
+        return $stmt->execute(params: $data);
     }
 
     public function update($id, $data): mixed {
