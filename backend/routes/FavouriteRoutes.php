@@ -8,17 +8,14 @@ Flight::register('favouriteController', 'FavouriteController');
  *     path="/favourites",
  *     summary="Get all favourites for a user",
  *     tags={"Favourites"},
- *     @OA\Parameter(
- *         name="user_id",
- *         in="query",
- *         required=true,
- *         @OA\Schema(type="integer")
- *     ),
  *     @OA\Response(response=200, description="Favourites retrieved")
  * )
  */
 Flight::route('GET /favourites', function () {
-    Flight::favouriteController()->getFavourites();
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+
+    $user = Flight::get('user');
+    Flight::favouriteController()->getFavourites($user->id);
 });
 
 /**
@@ -29,8 +26,7 @@ Flight::route('GET /favourites', function () {
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"user_id", "product_id"},
- *             @OA\Property(property="user_id", type="integer"),
+ *             required={"product_id"},
  *             @OA\Property(property="product_id", type="integer")
  *         )
  *     ),
@@ -38,7 +34,12 @@ Flight::route('GET /favourites', function () {
  * )
  */
 Flight::route('POST /favourites', function () {
-    Flight::favouriteController()->addFavourite();
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+
+    $user = Flight::get('user');
+    $body = Flight::request()->data->getData();
+    $body['user_id'] = $user->id; // Force token user_id
+    Flight::favouriteController()->addFavourite($body);
 });
 
 /**
@@ -56,6 +57,9 @@ Flight::route('POST /favourites', function () {
  * )
  */
 Flight::route('DELETE /favourites', function () {
-    Flight::favouriteController()->removeFavourite();
-});
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
 
+    $user = Flight::get('user');
+    $favouriteId = Flight::request()->query['id'] ?? null;
+    Flight::favouriteController()->removeFavourite($favouriteId, $user->id);
+});

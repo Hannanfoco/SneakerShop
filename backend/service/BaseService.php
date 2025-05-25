@@ -26,7 +26,7 @@ class BaseService {
     }
 
     public function delete($id): mixed {
-        return $this->dao->delete($id);
+        return $this->dao->delete($id); 
     }
 
     // Optional: Validate required fields

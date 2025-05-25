@@ -16,6 +16,12 @@ class UserBusinessLogic {
         return $this->userService->getUserByEmail($email);
     }
 
+    public function getAll(): mixed {
+        return $this->userService->getAll(); // or $this->dao->getAll() if you're using dao pattern
+    }
+    
+    
+
 
     public function registerOrLoginUser($data) {
         $existingUser = $this->userService->getUserByEmail($data['email']);

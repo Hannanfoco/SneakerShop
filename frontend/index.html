@@ -36,16 +36,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto" id="dynamic-nav">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#shop">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="#favorites">Favorites</a></li>
                     <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
-                    <li class="nav-item">
+                
+                      
+                    <li class="nav-item" id="auth-action">
                         <a class="nav-link btn btn-primary text-white px-3" href="#login">Login</a>
                     </li>
                 </ul>
+                
             </div>
         </div>
     </nav>
@@ -61,6 +64,8 @@
         <section id="signup" data-load="pages/signup.html"></section>
         <section id="payment" data-load="pages/payment.html"></section>
         <section id="product-details" data-load="product-details.html"></section>
+        <section id="admin" data-load="admindashboard.html"></section>
+
 
     </main>
 
@@ -73,11 +78,13 @@
         
         <div style="margin: 15px 0;">
             <a href="#home" style="color: white; text-decoration: none; margin: 0 10px;">Home</a> | 
-            <a href="#shop" style="color: white; text-decoration: none; margin: 0 10px;">Shop</a> | 
+            <a href="#shop" style="color: white; text-decoration: none; margin: 0 10px;">Shoppp</a> | 
             <a href="#cart" style="color: white; text-decoration: none; margin: 0 10px;">Cart</a> | 
             <a href="#favorites" style="color: white; text-decoration: none; margin: 0 10px;">Favorites</a> | 
             <a href="#profile" style="color: white; text-decoration: none; margin: 0 10px;">Profile</a> | 
             <a href="#login" style="color: white; text-decoration: none; margin: 0 10px;">Login</a>
+            <a href="#signup">Sign Up</a>
+
         </div>
 
         <p style="font-size: 14px; margin-top: 15px;">Designed with ❤️ by SneakerShop Dev Team</p>
@@ -85,18 +92,49 @@
 </footer>
 
 
+<!-- ✅ 1. jQuery and required libraries -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+<!-- ✅ 2. Utilities -->
+<script src="utils/utils.js"></script>
+
+<!-- ✅ 3. App Core Logic -->
+<script src="services/user-service.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/favorites.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/profile.js"></script>
+<script src="assets/js/product-details.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/home.js"></script>
+
+<!-- ✅ 4. SPApp config (defines `const app = $.spapp(...)`) -->
+<script src="assets/js/jquery.spapp.min.js"></script>
+<script src="assets/js/spapp-config.js"></script>
+
+<!-- ✅ 5. NOW you can safely use `app.onCreate(...)` -->
+<script src="assets/js/payment.js"></script>
+
+<!-- ✅ 6. Shop after everything (if needed last) -->
+<script src="assets/js/shop.js"></script>
 
 
-    <!-- Other Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/spapp-config.js"></script>
-    <script src="assets/js/shop.js"></script>
-    <script src="assets/js/products.js"></script>
-    <script src="assets/js/cart.js"></script>
-    <script src="assets/js/favorites.js"></script>
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/profile.js"></script>
-    <script src="assets/js/product-details.js"></script>
+
+
+<!-- ✅ Toastr CSS -->
+
+<!-- ✅ Toastr JS -->
+
+
+
+
+
+
 
 
 

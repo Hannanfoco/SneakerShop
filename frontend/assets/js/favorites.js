@@ -1,102 +1,141 @@
-// ✅ Hardcoded favorite products (default favorites)
-const defaultFavorites = [
-    { name: "Converse Chuck", price: 75, image: "/frontend/images/p1.jpg" },
-    { name: "New Balance 550", price: 130, image: "/frontend/images/p2.jpg" },
-    { name: "Vans Old Skool", price: 85, image: "/frontend/images/p3.jpg" },
-    { name: "Jordan Retro", price: 200, image: "/frontend/images/p4.jpg" },
-    { name: "Puma RS-X", price: 110, image: "/frontend/images/p5.jpg" }
-];
+async function loadFavorites() {
+    console.log("🔄 loadFavorites() called");
 
-
-/**
- * ✅ Function to Load Favorites from LocalStorage and Display in Table
- */
-function loadFavorites() {
-    console.log("🔄 loadFavorites() function called...");
-
-    const tableBody = document.getElementById("favorites-container");
-
-    if (!tableBody) {
-        console.error("❌ Error: favorites-container not found in the DOM.");
+    const container = document.getElementById("favorites-container");
+    if (!container) {
+        console.error(" favorites-container not found");
         return;
     }
 
-    tableBody.innerHTML = ""; // Clear existing content
+    container.innerHTML = "";
+    const token = localStorage.getItem("user_token");
+    if (!token) return;
 
-    let favorites = JSON.parse(localStorage.getItem("favorites"));
+    try {
+        const response = await $.ajax({
+            url: "http://localhost/SneakerShop/backend/favourites",
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Authentication": token
+            }
+        });
 
-    // ✅ Force Overwriting Old Data
-    if (!favorites || !Array.isArray(favorites) || favorites.length === 0 || favorites[0].image.includes("nb550.jpg")) {
-        console.warn("⚠️ No favorites found or outdated data detected. Resetting to defaultFavorites...");
-        favorites = defaultFavorites;
-        localStorage.setItem("favorites", JSON.stringify(favorites)); // Save new data
-    }
-
-    favorites.forEach((product, index) => {
-        if (!product || !product.name) {
-            console.warn(`⚠️ Skipping invalid product at index ${index}:`, product);
+        const favorites = Array.isArray(response.data) ? response.data : [];
+        if (favorites.length === 0) {
+            container.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No favorites yet.</td></tr>`;
             return;
         }
 
-        let imageSrc = product.image.startsWith("/")
-    ? product.image
-    : `/frontend/images/${product.image}`;
+        favorites.forEach((product) => {
+            const imageSrc = product.image_url
+                ? `http://localhost/SneakerShop/${product.image_url}`
+                : "http://localhost/SneakerShop/images/no-image.png";
 
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <tr>
+                    <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
+                    <td class="align-middle fw-bold">${product.name}</td>
+                    <td class="align-middle text-muted">$${product.price}</td>
+                    <td class="align-middle">${product.description || ""}</td>
+                    <td class="align-middle">
+                        <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
+                    </td>
+                </tr>
+            `;
+            container.appendChild(row);
+        });
 
-        console.log(`🛍️ Adding product to table: ${product.name}`);
-
-        let row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
-            <td class="align-middle fw-bold">${product.name}</td>
-            <td class="align-middle text-muted">$${product.price}</td>
-            <td class="align-middle">${product.description}</td>
-            <td class="align-middle">
-              <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites('${product.name}')">❌</button>
-            </td>
-        `;
-
-        tableBody.appendChild(row);
-    });
-
-    console.log("✅ loadFavorites() execution completed.");
-}
-
-
-
-/**
- * ✅ Function to Remove a Single Favorite
- */
-function removeFromFavorites(productName) {
-    console.log(`🗑️ removeFromFavorites() called for: ${productName}`);
-
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    favorites = favorites.filter((item) => item.name !== productName); // Remove item
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    loadFavorites(); // Reload favorites after removal
-    console.log(`✅ '${productName}' removed from favorites.`);
-}
-
-/**
- * ✅ Function to Clear All Favorites
- */
-function clearFavorites() {
-    console.log("🗑️ clearFavorites() function called. Removing all items...");
-    localStorage.removeItem("favorites");
-    loadFavorites();
-    console.log("✅ All favorites cleared.");
-}
-
-/**
- * ✅ Ensure the Favorites Page Loads Properly
- */
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("✅ Page Loaded: Checking if we're on the Favorites page...");
-    
-    if (window.location.hash === "#favorites") {
-        console.log("✅ Favorites page detected, calling loadFavorites()");
-        setTimeout(loadFavorites, 500); // Small delay to ensure DOM is ready
+    } catch (err) {
+        console.error(" Failed to load favorites:", err.responseText || err);
+        toastr.error("Could not load favorites.");
     }
+}
+
+async function toggleFavorite(e, productId, name, price, imageUrl, description, buttonEl) {
+    e.stopPropagation();
+    const token = localStorage.getItem("user_token");
+    if (!token) {
+        toastr.warning("Please log in to manage favorites.");
+        return;
+    }
+
+    const isLiked = buttonEl.textContent.includes("❤️");
+
+    try {
+        if (isLiked) {
+            // Remove favorite — this will call /favourites GET to match the correct ID
+            const favs = await $.ajax({
+                url: "http://localhost/SneakerShop/backend/favourites",
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
+                }
+            });
+
+            const target = favs.data?.find(f => f.product_id === productId);
+            if (!target) throw new Error("Favorite not found");
+
+            await $.ajax({
+                url: `http://localhost/SneakerShop/backend/favourites?id=${target.favourite_id}`,
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
+                }
+            });
+
+            buttonEl.innerHTML = '🤍';
+            toastr.info(`${name} removed from favorites`);
+
+        } else {
+            // Add favorite
+            await $.ajax({
+                url: "http://localhost/SneakerShop/backend/favourites",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ product_id: productId }),
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
+                }
+            });
+
+            buttonEl.innerHTML = '❤️';
+            toastr.success(`${name} added to favorites`);
+        }
+
+    } catch (err) {
+        console.error(" toggleFavorite error:", err.responseText || err);
+        toastr.error("Failed to update favorites.");
+    }
+}
+
+//  Remove favorite by favorite ID
+async function removeFromFavorites(favouriteId) {
+    const token = localStorage.getItem("user_token");
+    if (!token) return;
+
+    try {
+        await $.ajax({
+            url: `http://localhost/SneakerShop/backend/favourites?id=${favouriteId}`,
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Authentication": token
+            }
+        });
+        toastr.success("Favorite removed.");
+        loadFavorites();
+    } catch (err) {
+        console.error(" removeFromFavorites error:", err.responseText || err);
+        toastr.error("Could not remove favorite.");
+    }
+}
+
+//  Trigger load on hash route
+$(document).on("click", "a[href='#favorites']", function () {
+    setTimeout(loadFavorites, 300);
 });

@@ -44,6 +44,31 @@ class UserController {
         }
     }
 
+    public function getAllUsers() {
+        Flight::json($this->logic->getAll()); // ✅ RIGHT
+    }
+    
+    
+
+    public function getUsers() {
+        $params = Flight::request()->query->getData();
+        $user = null;
+    
+        if (isset($params['id'])) {
+            $user = $this->logic->getUserById($params['id']);
+        } else if (isset($params['email'])) {
+            $user = $this->logic->getUserByEmail($params['email']);
+        }
+    
+        if ($user) {
+            Flight::json(['success' => true, 'user' => $user]);
+        } else {
+            Flight::halt(404, 'User not found');
+        }
+    }
+    
+    
+
     public function updateUser() {
         $data = Flight::request()->data->getData();
 

@@ -48,18 +48,4 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        // Load total from cart
-        let total = localStorage.getItem("cartTotal") || "0.00";
-        $("#payment-total").text(`$${total}`);
 
-        $("#payment-form").submit(function (e) {
-            e.preventDefault();
-            alert("Payment Successful! ✅");
-            localStorage.removeItem("cart");
-            localStorage.removeItem("cartTotal");
-            window.location.hash = "#home"; // Redirect to home after payment
-        });
-    });
-</script>

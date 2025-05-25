@@ -1,15 +1,45 @@
 <div class="container mt-5">
     <h2 class="text-center">Login</h2>
-    <form class="login-form">
-        <div class="mb-3">
-            <label for="login-email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="login-email" placeholder="Enter email">
-        </div>
-        <div class="mb-3">
-            <label for="login-password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="login-password" placeholder="Enter password">
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-        <p class="text-center mt-3">Don't have an account? <a href="#signup">Sign up</a></p>
+    <form id="login-form">
+      <div class="mb-3">
+        <label for="login-email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="login-form"
+          name="email"
+          placeholder="Enter email"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="login-password" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="login-password"
+          name="password"
+          placeholder="Enter password"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <p class="text-center mt-3">
+        Don't have an account? <a href="#signup">Sign up</a>
+      </p>
     </form>
-</div>
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+   <script src="utils/constants.js"></script>
+   <script src="services/user-service.js"></script>
+   <script type="text/javascript">
+     UserService.init();
+   </script>
+ </body>
+</html>
+
+
