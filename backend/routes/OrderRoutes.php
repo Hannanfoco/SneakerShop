@@ -5,20 +5,17 @@ Flight::register('orderController', 'OrderController');
 
 /**
  * @OA\Get(
- *     path="/orders/{user_id}",
- *     summary="Get all orders for a specific user",
+ *     path="/orders",
+ *     summary="Get all orders for the authenticated user",
  *     tags={"Orders"},
- *     @OA\Parameter(
- *         name="user_id",
- *         in="path",
- *         required=true,
- *         @OA\Schema(type="integer")
- *     ),
  *     @OA\Response(response=200, description="User's order history")
  * )
  */
-Flight::route('GET /orders/@user_id', function($user_id){
-    Flight::orderController()->getOrders($user_id);
+Flight::route('GET /orders', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+
+    $user = Flight::get('user');
+    Flight::orderController()->getOrders($user->id);
 });
 
 /**
@@ -29,8 +26,7 @@ Flight::route('GET /orders/@user_id', function($user_id){
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"user_id", "total_price"},
- *             @OA\Property(property="user_id", type="integer"),
+ *             required={"total_price"},
  *             @OA\Property(property="total_price", type="number", format="float")
  *         )
  *     ),
@@ -38,6 +34,11 @@ Flight::route('GET /orders/@user_id', function($user_id){
  * )
  */
 Flight::route('POST /orders/checkout', function(){
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+
+    $user = Flight::get('user');
     $data = Flight::request()->data->getData();
+    $data['user_id'] = $user->id; //  Trust from token
+
     Flight::orderController()->checkout($data);
 });

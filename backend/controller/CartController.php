@@ -9,19 +9,32 @@ class CartController {
     }
 
     public function getCart() {
-        $userId = Flight::request()->query['user_id'] ?? null;
-        if (!$userId) {
-            Flight::json(['error' => 'Missing user_id'], 400);
-            return;
+    $userId = Flight::request()->query['user_id'] ?? null;
+    if (!$userId) {
+        Flight::json(['error' => 'Missing user_id'], 400);
+        return;
+    }
+
+    try {
+        $cart = $this->logic->getCartByUser((int)$userId);
+
+        if (!$cart || count($cart) === 0) {
+            Flight::json([
+                'message' => 'Cart is empty',
+                'data' => []
+            ], 200);
+        } else {
+            Flight::json([
+                'message' => 'Cart loaded successfully',
+                'data' => $cart
+            ], 200);
         }
 
-        try {
-            $cart = $this->logic->getCartByUser((int)$userId);
-            Flight::json($cart);
-        } catch (Exception $e) {
-            Flight::json(['error' => $e->getMessage()], 500);
-        }
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 500);
     }
+}
+
 
     public function addItem() {
         $data = Flight::request()->data->getData();

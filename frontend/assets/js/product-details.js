@@ -13,13 +13,12 @@ function loadProductDetails() {
     const product = products.find(p => p.id == productId);
 
     if (!product) {
-        console.error("❌ No product data found!");
+        console.error(" No product data found!");
         document.getElementById("product-details-container").innerHTML =
             "<p class='text-center text-danger'>Product not found.</p>";
         return;
     }
 
-    // Ensure elements exist before modifying them
     const imageElement = document.getElementById("product-image");
     const nameElement = document.getElementById("product-name");
     const priceElement = document.getElementById("product-price");
@@ -28,23 +27,20 @@ function loadProductDetails() {
     const addToFavoritesButton = document.getElementById("add-to-favorites-btn");
 
     if (!imageElement || !nameElement || !priceElement || !descriptionElement || !addToCartButton || !addToFavoritesButton) {
-        console.error("❌ Missing elements in product-details.html!");
+        console.error("Missing elements in product-details.html!");
         return;
     }
 
-    // Populate the product details page
     imageElement.src = product.image;
     imageElement.alt = product.name;
     nameElement.textContent = product.name;
     priceElement.textContent = `$${product.price}`;
     descriptionElement.textContent = product.description;
 
-    // Add to Cart functionality
     addToCartButton.onclick = function () {
         addToCart(product.name, product.price, product.image);
     };
 
-    // Add to Favorites functionality
     addToFavoritesButton.onclick = function () {
         toggleFavorite(product.id, product.name, product.price, product.image, product.description, this);
     };

@@ -18,6 +18,7 @@ Flight::register('cartController', 'CartController');
  * )
  */
 Flight::route('GET /cart', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Customer only
     Flight::cartController()->getCart();
 });
 
@@ -39,6 +40,7 @@ Flight::route('GET /cart', function () {
  * )
  */
 Flight::route('POST /cart', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Customer only
     Flight::cartController()->addItem();
 });
 
@@ -59,6 +61,7 @@ Flight::route('POST /cart', function () {
  * )
  */
 Flight::route('PUT /cart', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Customer only
     Flight::cartController()->updateItem();
 });
 
@@ -77,6 +80,6 @@ Flight::route('PUT /cart', function () {
  * )
  */
 Flight::route('DELETE /cart', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Customer only
     Flight::cartController()->deleteItem();
 });
-

@@ -14,7 +14,6 @@ localStorage.setItem("allProducts", JSON.stringify(products));
 
 
 
-// Ensure products load when entering the Shop page
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("shop-product-container")) {
         loadProducts("shop-product-container");
