@@ -34,27 +34,20 @@ const AdminDashboard = {
     },
   
     renderUserTable: function (users) {
-      const tableBody = $("#userTableBody");
-      tableBody.empty();
-  
-      if (!users || users.length === 0) {
-        tableBody.append(`<tr><td colspan="5" class="text-center">No users found.</td></tr>`);
-        return;
-      }
-  
-      users.forEach(user => {
-        tableBody.append(`
-          <tr>
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td>
-              <button class="btn btn-sm btn-danger delete-user-btn" data-id="${user.id}">Delete</button>
-            </td>
-          </tr>
-        `);
-      });
+      const columns = [
+        { data: "id", title: "ID" },
+        { data: "username", title: "Name" },
+        { data: "email", title: "Email" },
+        { data: "role", title: "Role" },
+        {
+          data: null,
+          title: "Actions",
+          render: function (data, type, row) {
+            return `<button class="btn btn-sm btn-danger delete-user-btn" data-id="${row.id}">Delete</button>`;
+          }
+        }
+      ];
+      Utils.datatable("userTable", columns, users || []);
     }
   };
   $(document).ready(function () {
