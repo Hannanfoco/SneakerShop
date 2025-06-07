@@ -18,7 +18,7 @@ class FavouriteService extends BaseService {
         $favourites = $this->favouriteDao->getUserFavourites(userId: $userId);
         foreach ($favourites as $fav) {
             if ($fav['product_id'] == $productId) {
-                throw new Exception(message: "❗ Product already in favourites.");
+                throw new Exception(message: " Product already in favourites.");
             }
         }
 

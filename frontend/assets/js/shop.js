@@ -65,7 +65,6 @@ function loadProducts(containerId, products) {
     });
 }
 
-//   to fetch products from backend
 function getAllProducts(callback) {
     const token = localStorage.getItem("user_token");
 
@@ -100,7 +99,7 @@ function getAllProducts(callback) {
             callback(products);
         },
         error: function (xhr) {
-            console.error("🔴 AJAX failed:", xhr.responseText);
+            console.error(" AJAX failed:", xhr.responseText);
             toastr.error("Failed to load products.");
             callback([]);
         }
@@ -119,14 +118,13 @@ function showSection(sectionId) {
         return;
     }
 
-    section.style.display = 'block';
 
     if (sectionId === "shop") {
         getAllProducts(products => loadProducts("shop-product-container", products));
     } else if (sectionId === "home") {
         getAllProducts(products => loadProducts("home-product-container", products));
     } else if (sectionId === "favorites") {
-        loadFavorites(); // assumes loadFavorites() exists
+        loadFavorites(); 
     }
 
     localStorage.setItem('currentSection', sectionId);

@@ -12,7 +12,7 @@ Flight::register('orderController', 'OrderController');
  * )
  */
 Flight::route('GET /orders', function() {
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Both roles
 
     $user = Flight::get('user');
     Flight::orderController()->getOrders($user->id);
@@ -34,11 +34,11 @@ Flight::route('GET /orders', function() {
  * )
  */
 Flight::route('POST /orders/checkout', function(){
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Both roles
 
     $user = Flight::get('user');
     $data = Flight::request()->data->getData();
-    $data['user_id'] = $user->id; //  Trust from token
+    $data['user_id'] = $user->id; // Trust from token
 
     Flight::orderController()->checkout($data);
 });

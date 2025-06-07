@@ -29,7 +29,6 @@ class BaseService {
         return $this->dao->delete($id); 
     }
 
-    // Optional: Validate required fields
     protected function validateRequiredFields(array $data, array $fields): void {
         foreach ($fields as $field) {
             if (!isset($data[$field]) || $data[$field] === '') {

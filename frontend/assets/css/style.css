@@ -709,19 +709,29 @@ th {
   }
 
 
- /* Ensure the Dashboard/Login button in the navbar is always visible */
-.navbar .navbar-nav #auth-action {
-    display: list-item !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+  #auth-action .btn {
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
   }
   
-  .navbar .navbar-nav #auth-action a {
-    display: inline-block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+ 
+  
+  #auth-action .btn-danger {
     color: white !important;
   }
+  .navbar .btn.btn-warning {
+    color: rgb(255, 251, 251) !important;
+    opacity: 1 !important;
+  }
+
+  .profile-card:hover {
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  
+  
   
   
   

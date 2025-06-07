@@ -2,7 +2,6 @@
  
   $.spapp = function(options) {
 
-    // set config and routes
     var config, routes = {};
 
     config = $.extend({
@@ -20,7 +19,7 @@
         onReady  : function() { }
       }
     });
-    // update rotues programatically
+    // update rotue
     this.route = function(options) { $.extend(routes[options.view], options); }
 
     // manage hash change
@@ -54,7 +53,6 @@
       }
     }
 
-    // and run
     this.run = function() {
       window.addEventListener('hashchange', function() { routeChange(); });
       if( ! window.location.hash) { window.location.hash = config.defaultView; } else { routeChange(); }

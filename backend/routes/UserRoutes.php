@@ -31,6 +31,10 @@ if ($id || $email) {
 
 });
 
+
+
+
+
 /**
  * @OA\Post(
  *     path="/users",
@@ -75,7 +79,7 @@ Flight::route('POST /users', function () {
 Flight::route('PUT /users', function () {
     $token = Flight::request()->getHeader("Authentication");
     Flight::auth_middleware()->verifyToken($token);
-    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // Only ADMIN
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); 
 
     Flight::userController()->updateUser();
 });
@@ -103,3 +107,23 @@ Flight::route('DELETE /users', function () {
 
     Flight::userController()->deleteUser();
 });
+
+/**
+ * @OA\Get(
+ *     path="/users/stats",
+ *     summary="Get user statistics (admin only)",
+ *     tags={"Users"},
+ *     security={{"Bearer":{}}},
+ *     @OA\Response(response=200, description="Stats retrieved"),
+ *     @OA\Response(response=403, description="Forbidden")
+ * )
+ */
+Flight::route('GET /users/stats', function () {
+    $token = Flight::request()->getHeader("Authentication");
+    Flight::auth_middleware()->verifyToken($token);
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+
+    Flight::userController()->getStats();
+});
+
+

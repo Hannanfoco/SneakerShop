@@ -1,19 +1,44 @@
+function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        console.error(" Failed to parse JWT:", e);
+        return null;
+    }
+}
+
+function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}
+
 async function loadFavorites() {
     console.log("🔄 loadFavorites() called");
 
     const container = document.getElementById("favorites-container");
     if (!container) {
-        console.error(" favorites-container not found");
+        console.error("favorites-container not found");
         return;
     }
 
     container.innerHTML = "";
+
     const token = localStorage.getItem("user_token");
     if (!token) return;
 
+    const decoded = parseJwt(token);
+    const userId = decoded?.id;
+    if (!userId) {
+        console.error(" Cannot decode user ID from token");
+        return;
+    }
+
     try {
         const response = await $.ajax({
-            url: "http://localhost/SneakerShop/backend/favourites",
+            url: `http://localhost/SneakerShop/backend/api/favorites.php?user_id=${userId}`,
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token,
@@ -21,7 +46,7 @@ async function loadFavorites() {
             }
         });
 
-        const favorites = Array.isArray(response.data) ? response.data : [];
+        const favorites = Array.isArray(response.favourites) ? response.favourites : [];
         if (favorites.length === 0) {
             container.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No favorites yet.</td></tr>`;
             return;
@@ -53,6 +78,7 @@ async function loadFavorites() {
     }
 }
 
+
 async function toggleFavorite(e, productId, name, price, imageUrl, description, buttonEl) {
     e.stopPropagation();
     const token = localStorage.getItem("user_token");
@@ -61,11 +87,19 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
         return;
     }
 
+    const decoded = parseJwt(token);
+    const userId = decoded?.id;
+
+    if (!userId) {
+        console.error(" Cannot extract user_id from token");
+        return;
+    }
+
     const isLiked = buttonEl.textContent.includes("❤️");
 
     try {
         if (isLiked) {
-            // Remove favorite — this will call /favourites GET to match the correct ID
+            // Remove favorite
             const favs = await $.ajax({
                 url: "http://localhost/SneakerShop/backend/favourites",
                 method: "GET",
@@ -91,12 +125,14 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
             toastr.info(`${name} removed from favorites`);
 
         } else {
-            // Add favorite
             await $.ajax({
                 url: "http://localhost/SneakerShop/backend/favourites",
                 method: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({ product_id: productId }),
+                data: JSON.stringify({
+                    user_id: userId,
+                    product_id: productId
+                }),
                 headers: {
                     "Authorization": "Bearer " + token,
                     "Authentication": token
@@ -113,7 +149,6 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
     }
 }
 
-//  Remove favorite by favorite ID
 async function removeFromFavorites(favouriteId) {
     const token = localStorage.getItem("user_token");
     if (!token) return;
@@ -130,12 +165,14 @@ async function removeFromFavorites(favouriteId) {
         toastr.success("Favorite removed.");
         loadFavorites();
     } catch (err) {
-        console.error(" removeFromFavorites error:", err.responseText || err);
+        console.error("removeFromFavorites error:", err.responseText || err);
         toastr.error("Could not remove favorite.");
     }
 }
 
-//  Trigger load on hash route
-$(document).on("click", "a[href='#favorites']", function () {
-    setTimeout(loadFavorites, 300);
+$(document).ready(function () {
+    if (window.location.hash === "#favorites") {
+        setTimeout(loadFavorites, 300);
+    }
 });
+

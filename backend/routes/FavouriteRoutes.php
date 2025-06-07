@@ -12,7 +12,7 @@ Flight::register('favouriteController', 'FavouriteController');
  * )
  */
 Flight::route('GET /favourites', function () {
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Both roles
 
     $user = Flight::get('user');
     Flight::favouriteController()->getFavourites($user->id);
@@ -34,7 +34,7 @@ Flight::route('GET /favourites', function () {
  * )
  */
 Flight::route('POST /favourites', function () {
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Both roles
 
     $user = Flight::get('user');
     $body = Flight::request()->data->getData();
@@ -57,7 +57,7 @@ Flight::route('POST /favourites', function () {
  * )
  */
 Flight::route('DELETE /favourites', function () {
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); 
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Both roles
 
     $user = Flight::get('user');
     $favouriteId = Flight::request()->query['id'] ?? null;
