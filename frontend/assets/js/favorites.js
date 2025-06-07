@@ -49,17 +49,17 @@ async function loadFavorites() {
                 ? Constants.PROJECT_BASE_URL + product.image_url
                 : Constants.PROJECT_BASE_URL + "images/no-image.png";
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
-                <td class="align-middle fw-bold">${product.name}</td>
-                <td class="align-middle text-muted">$${product.price}</td>
-                <td class="align-middle">${product.description || ""}</td>
-                <td class="align-middle">
-                    <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
-                </td>
-            `;
-            container.appendChild(row);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
+                    <td class="align-middle fw-bold">${product.name}</td>
+                    <td class="align-middle text-muted">$${product.price}</td>
+                    <td class="align-middle">${product.description || ""}</td>
+                    <td class="align-middle">
+                        <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
+                    </td>
+                `;
+                container.appendChild(row);
         });
 
     } catch (err) {
