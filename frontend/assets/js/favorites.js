@@ -17,7 +17,6 @@ async function loadFavorites() {
     }
 
     container.innerHTML = "";
-
     const token = localStorage.getItem("user_token");
     if (!token) return;
 
@@ -26,11 +25,12 @@ async function loadFavorites() {
             url: Constants.PROJECT_BASE_URL + "favourites",
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                "Authentication": token
             }
         });
 
-        const favorites = Array.isArray(response) ? response : response.data || [];
+        const favorites = Array.isArray(response.data) ? response.data : [];
         if (favorites.length === 0) {
             container.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No favorites yet.</td></tr>`;
             return;
@@ -43,13 +43,15 @@ async function loadFavorites() {
 
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
-                <td class="align-middle fw-bold">${product.name}</td>
-                <td class="align-middle text-muted">$${product.price}</td>
-                <td class="align-middle">${product.description || ""}</td>
-                <td class="align-middle">
-                    <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
-                </td>
+                <tr>
+                    <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
+                    <td class="align-middle fw-bold">${product.name}</td>
+                    <td class="align-middle text-muted">$${product.price}</td>
+                    <td class="align-middle">${product.description || ""}</td>
+                    <td class="align-middle">
+                        <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
+                    </td>
+                </tr>
             `;
             container.appendChild(row);
         });
@@ -62,7 +64,6 @@ async function loadFavorites() {
 
 async function toggleFavorite(e, productId, name, price, imageUrl, description, buttonEl) {
     e.stopPropagation();
-
     const token = localStorage.getItem("user_token");
     if (!token) {
         toastr.warning("Please log in to manage favorites.");
@@ -80,23 +81,25 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
 
     try {
         if (isLiked) {
-            // Get favorites and find the one to delete
+            // Remove favorite — GET to find correct favourite_id
             const favs = await $.ajax({
                 url: Constants.PROJECT_BASE_URL + "favourites",
                 method: "GET",
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
                 }
             });
 
-            const target = favs.find(f => f.product_id === productId);
+            const target = favs.data?.find(f => f.product_id === productId);
             if (!target) throw new Error("Favorite not found");
 
             await $.ajax({
-                url: Constants.PROJECT_BASE_URL + `favourites?id=${target.favourite_id}`,
+                url: `${Constants.PROJECT_BASE_URL}favourites?id=${target.favourite_id}`,
                 method: "DELETE",
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
                 }
             });
 
@@ -109,11 +112,12 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    user_id: userId,      // <== Add user_id here
+                    user_id: userId,   // <--- THIS WAS MISSING before
                     product_id: productId
                 }),
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token,
+                    "Authentication": token
                 }
             });
 
@@ -133,13 +137,13 @@ async function removeFromFavorites(favouriteId) {
 
     try {
         await $.ajax({
-            url: Constants.PROJECT_BASE_URL + `favourites?id=${favouriteId}`,
+            url: `${Constants.PROJECT_BASE_URL}favourites?id=${favouriteId}`,
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                "Authentication": token
             }
         });
-
         toastr.success("Favorite removed.");
         loadFavorites();
     } catch (err) {
@@ -148,8 +152,6 @@ async function removeFromFavorites(favouriteId) {
     }
 }
 
-$(document).ready(function () {
-    if (window.location.hash === "#favorites") {
-        setTimeout(loadFavorites, 300);
-    }
+$(document).on("click", "a[href='#favorites']", function () {
+    setTimeout(loadFavorites, 300);
 });
