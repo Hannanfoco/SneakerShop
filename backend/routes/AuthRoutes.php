@@ -26,6 +26,10 @@ Flight::group('/auth', function () {
      * )
      */
     Flight::route('POST /register', function () {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+
         $data = json_decode(file_get_contents('php://input'), true);
         $response = Flight::auth_service()->register($data);
 
@@ -63,6 +67,10 @@ Flight::group('/auth', function () {
      * )
      */
     Flight::route('POST /login', function () {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+
         $data = json_decode(file_get_contents('php://input'), true);
         $response = Flight::auth_service()->login($data);
 
