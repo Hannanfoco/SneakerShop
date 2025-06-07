@@ -2,15 +2,7 @@ function parseJwt(token) {
     try {
         return JSON.parse(atob(token.split('.')[1]));
     } catch (e) {
-        console.error(" Failed to parse JWT:", e);
-        return null;
-    }
-}
-
-function parseJwt(token) {
-    try {
-        return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
+        console.error("Failed to parse JWT:", e);
         return null;
     }
 }
@@ -29,24 +21,16 @@ async function loadFavorites() {
     const token = localStorage.getItem("user_token");
     if (!token) return;
 
-    const decoded = parseJwt(token);
-    const userId = decoded?.id;
-    if (!userId) {
-        console.error(" Cannot decode user ID from token");
-        return;
-    }
-
     try {
         const response = await $.ajax({
-            url: `http://localhost/SneakerShop/backend/api/favorites.php?user_id=${userId}`,
+            url: Constants.PROJECT_BASE_URL + "favourites",
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + token,
-                "Authentication": token
+                "Authorization": "Bearer " + token
             }
         });
 
-        const favorites = Array.isArray(response.favourites) ? response.favourites : [];
+        const favorites = Array.isArray(response) ? response : response.data || [];
         if (favorites.length === 0) {
             container.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No favorites yet.</td></tr>`;
             return;
@@ -54,8 +38,8 @@ async function loadFavorites() {
 
         favorites.forEach((product) => {
             const imageSrc = product.image_url
-                ? `http://localhost/SneakerShop/${product.image_url}`
-                : "http://localhost/SneakerShop/images/no-image.png";
+                ? Constants.PROJECT_BASE_URL + product.image_url
+                : Constants.PROJECT_BASE_URL + "images/no-image.png";
 
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -73,14 +57,14 @@ async function loadFavorites() {
         });
 
     } catch (err) {
-        console.error(" Failed to load favorites:", err.responseText || err);
+        console.error("Failed to load favorites:", err.responseText || err);
         toastr.error("Could not load favorites.");
     }
 }
 
-
 async function toggleFavorite(e, productId, name, price, imageUrl, description, buttonEl) {
     e.stopPropagation();
+
     const token = localStorage.getItem("user_token");
     if (!token) {
         toastr.warning("Please log in to manage favorites.");
@@ -89,9 +73,8 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
 
     const decoded = parseJwt(token);
     const userId = decoded?.id;
-
     if (!userId) {
-        console.error(" Cannot extract user_id from token");
+        console.error("Cannot extract user_id from token");
         return;
     }
 
@@ -99,25 +82,23 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
 
     try {
         if (isLiked) {
-            // Remove favorite
+            // Get favorites and find the one to delete
             const favs = await $.ajax({
-                url: "http://localhost/SneakerShop/backend/favourites",
+                url: Constants.PROJECT_BASE_URL + "favourites",
                 method: "GET",
                 headers: {
-                    "Authorization": "Bearer " + token,
-                    "Authentication": token
+                    "Authorization": "Bearer " + token
                 }
             });
 
-            const target = favs.data?.find(f => f.product_id === productId);
+            const target = favs.find(f => f.product_id === productId);
             if (!target) throw new Error("Favorite not found");
 
             await $.ajax({
-                url: `http://localhost/SneakerShop/backend/favourites?id=${target.favourite_id}`,
+                url: Constants.PROJECT_BASE_URL + `favourites?id=${target.favourite_id}`,
                 method: "DELETE",
                 headers: {
-                    "Authorization": "Bearer " + token,
-                    "Authentication": token
+                    "Authorization": "Bearer " + token
                 }
             });
 
@@ -126,16 +107,14 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
 
         } else {
             await $.ajax({
-                url: "http://localhost/SneakerShop/backend/favourites",
+                url: Constants.PROJECT_BASE_URL + "favourites",
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    user_id: userId,
-                    product_id: productId
+                    product_id: productId // user_id handled in backend
                 }),
                 headers: {
-                    "Authorization": "Bearer " + token,
-                    "Authentication": token
+                    "Authorization": "Bearer " + token
                 }
             });
 
@@ -144,7 +123,7 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
         }
 
     } catch (err) {
-        console.error(" toggleFavorite error:", err.responseText || err);
+        console.error("toggleFavorite error:", err.responseText || err);
         toastr.error("Failed to update favorites.");
     }
 }
@@ -155,13 +134,13 @@ async function removeFromFavorites(favouriteId) {
 
     try {
         await $.ajax({
-            url: `http://localhost/SneakerShop/backend/favourites?id=${favouriteId}`,
+            url: Constants.PROJECT_BASE_URL + `favourites?id=${favouriteId}`,
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer " + token,
-                "Authentication": token
+                "Authorization": "Bearer " + token
             }
         });
+
         toastr.success("Favorite removed.");
         loadFavorites();
     } catch (err) {
@@ -175,4 +154,3 @@ $(document).ready(function () {
         setTimeout(loadFavorites, 300);
     }
 });
-
