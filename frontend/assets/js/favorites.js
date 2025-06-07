@@ -38,7 +38,7 @@ async function loadFavorites() {
             }
         });
 
-        const favorites = Array.isArray(response.data) ? response.data : [];
+        const favorites = Array.isArray(response.favourites) ? response.favourites : [];
         if (favorites.length === 0) {
             container.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No favorites yet.</td></tr>`;
             return;
