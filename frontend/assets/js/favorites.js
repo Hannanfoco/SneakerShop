@@ -43,15 +43,13 @@ async function loadFavorites() {
 
             const row = document.createElement("tr");
             row.innerHTML = `
-                <tr>
-                    <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
-                    <td class="align-middle fw-bold">${product.name}</td>
-                    <td class="align-middle text-muted">$${product.price}</td>
-                    <td class="align-middle">${product.description || ""}</td>
-                    <td class="align-middle">
-                        <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
-                    </td>
-                </tr>
+                <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
+                <td class="align-middle fw-bold">${product.name}</td>
+                <td class="align-middle text-muted">$${product.price}</td>
+                <td class="align-middle">${product.description || ""}</td>
+                <td class="align-middle">
+                    <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
+                </td>
             `;
             container.appendChild(row);
         });
@@ -111,7 +109,7 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    product_id: productId // user_id handled in backend
+                    product_id: productId 
                 }),
                 headers: {
                     "Authorization": "Bearer " + token
