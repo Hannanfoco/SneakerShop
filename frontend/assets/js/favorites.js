@@ -109,7 +109,8 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    product_id: productId 
+                    user_id: userId,      // <== Add user_id here
+                    product_id: productId
                 }),
                 headers: {
                     "Authorization": "Bearer " + token
