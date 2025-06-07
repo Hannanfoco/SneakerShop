@@ -17,12 +17,20 @@ async function loadFavorites() {
     }
 
     container.innerHTML = "";
+
     const token = localStorage.getItem("user_token");
     if (!token) return;
 
+    const decoded = parseJwt(token);
+    const userId = decoded?.id;
+    if (!userId) {
+        console.error("Cannot extract user_id from token");
+        return;
+    }
+
     try {
         const response = await $.ajax({
-            url: Constants.PROJECT_BASE_URL + "favourites",
+            url: `${Constants.PROJECT_BASE_URL}favourites?user_id=${userId}`,
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token,
@@ -43,15 +51,13 @@ async function loadFavorites() {
 
             const row = document.createElement("tr");
             row.innerHTML = `
-                <tr>
-                    <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
-                    <td class="align-middle fw-bold">${product.name}</td>
-                    <td class="align-middle text-muted">$${product.price}</td>
-                    <td class="align-middle">${product.description || ""}</td>
-                    <td class="align-middle">
-                        <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
-                    </td>
-                </tr>
+                <td><img src="${imageSrc}" class="img-fluid rounded" style="width: 80px; height: 80px;"></td>
+                <td class="align-middle fw-bold">${product.name}</td>
+                <td class="align-middle text-muted">$${product.price}</td>
+                <td class="align-middle">${product.description || ""}</td>
+                <td class="align-middle">
+                    <button class="btn btn-light border-0 text-danger fs-9" onclick="removeFromFavorites(${product.favourite_id})">❌</button>
+                </td>
             `;
             container.appendChild(row);
         });
@@ -64,6 +70,7 @@ async function loadFavorites() {
 
 async function toggleFavorite(e, productId, name, price, imageUrl, description, buttonEl) {
     e.stopPropagation();
+
     const token = localStorage.getItem("user_token");
     if (!token) {
         toastr.warning("Please log in to manage favorites.");
@@ -81,9 +88,9 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
 
     try {
         if (isLiked) {
-            // Remove favorite — GET to find correct favourite_id
+            // Get favorites and find the one to delete
             const favs = await $.ajax({
-                url: Constants.PROJECT_BASE_URL + "favourites",
+                url: `${Constants.PROJECT_BASE_URL}favourites?user_id=${userId}`,
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + token,
@@ -112,7 +119,7 @@ async function toggleFavorite(e, productId, name, price, imageUrl, description, 
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    user_id: userId,   // <--- THIS WAS MISSING before
+                    user_id: userId,
                     product_id: productId
                 }),
                 headers: {
