@@ -1,5 +1,17 @@
 <?php
 
+// Allow CORS
+header("Access-Control-Allow-Origin: *"); // You can restrict this to your frontend URL if needed
+header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+header("Access-Control-Allow-Credentials: true");
+
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 // Show all PHP errors
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

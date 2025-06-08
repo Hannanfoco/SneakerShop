@@ -9,31 +9,36 @@ class Config
 {
     public static function DB_NAME()
     {
-        return 'SneakerShop';
+        return Config::get_env("DB_NAME", "SneakerShop");
     }
 
     public static function DB_PORT()
     {
-        return 3306;
+        return Config::get_env("DB_PORT", 3306);
     }
 
     public static function DB_USER()
     {
-        return 'root';
+        return Config::get_env("DB_USER", "root");
     }
 
     public static function DB_PASSWORD()
     {
-        return 'hannan12';
+        return Config::get_env("DB_PASSWORD", "hannan12");
     }
 
     public static function DB_HOST()
     {
-        return '127.0.0.1';
+        return Config::get_env("DB_HOST", "127.0.0.1");
     }
 
     public static function JWT_SECRET()
     {
-        return 'f38a7c0df41e2cb3b859d6454b7f89ad0d2cabe57fa9f04802a0eb94e122f3e6';
+        return Config::get_env("JWT_SECRET", "f38a7c0df41e2cb3b859d6454b7f89ad0d2cabe57fa9f04802a0eb94e122f3e6");
+    }
+
+    public static function get_env($name, $default)
+    {
+        return isset($_ENV[$name]) && trim($_ENV[$name]) !== "" ? $_ENV[$name] : $default;
     }
 }

@@ -24,7 +24,6 @@ async function loadAllProducts() {
     }
 }
 
-// 🔄 Load cart from backend when user views cart page
 async function loadCartFromBackend() {
     const token = localStorage.getItem("user_token");
     const user = JSON.parse(localStorage.getItem("user"));

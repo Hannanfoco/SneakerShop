@@ -1,31 +1,61 @@
 <div class="container mt-5">
-    <h2 class="text-center">Sign Up</h2>
-    <form id="register-form" class="signup-form" novalidate>
-        <div class="mb-3">
-        <label for="signup-name" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="signup-name" name="username" placeholder="Enter your full name" required>
-      </div>
-  
-      <div class="mb-3">
-        <label for="signup-email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="signup-email" name="email" placeholder="Enter your email" required>
-      </div>
-  
-      <div class="mb-3">
-        <label for="signup-password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="signup-password" name="password" placeholder="Enter your password" required>
-      </div>
+  <h2 class="text-center">Sign Up</h2>
+  <form id="register-form" class="signup-form">
+    <div class="mb-3">
+      <label for="signup-username" class="form-label">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="signup-username"
+        name="username"
+        placeholder="Enter your username"
+        required
+      />
+    </div>
 
-      <div class="mb-3">
-        <label for="signup-confirm" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="signup-confirm" name="confirmPassword" placeholder="Confirm your password" required>
-      </div>
-      
-  
-      <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-  
-      <p class="text-center mt-3">
-        Already have an account? <a href="#login">Login</a>
-      </p>
-    </form>
-  </div>
+    <div class="mb-3">
+      <label for="signup-email" class="form-label">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="signup-email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="signup-password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="signup-password"
+        name="password"
+        placeholder="Enter your password"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="signup-confirm" class="form-label">Confirm Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="signup-confirm"
+        name="confirmPassword"
+        placeholder="Confirm your password"
+        required
+      />
+    </div>
+
+    <!-- Optional role if needed -->
+    <input type="hidden" name="role" value="admin" />
+
+    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+
+    <p class="text-center mt-3">
+      Already have an account? <a href="#login">Login</a>
+    </p>
+  </form>
+</div>

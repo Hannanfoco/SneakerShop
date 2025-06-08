@@ -1,51 +1,36 @@
 <?php
 
-Flight::group('/auth', function() {
+Flight::group('/auth', function () {
 
     /**
      * @OA\Post(
      *     path="/auth/register",
-     *     summary="Register new user.",
-     *     description="Add a new user to the database.",
+     *     summary="Register a new user",
      *     tags={"auth"},
-     *     security={
-     *         {"ApiKey": {}}
-     *     },
      *     @OA\RequestBody(
-     *         description="Add new user",
      *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 required={"password", "email"},
-     *                 @OA\Property(
-     *                     property="password",
-     *                     type="string",
-     *                     example="some_password",
-     *                     description="User password"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="email",
-     *                     type="string",
-     *                     example="demo@gmail.com",
-     *                     description="User email"
-     *                 )
-     *             )
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", example="demo@gmail.com"),
+     *             @OA\Property(property="password", type="string", example="some_password")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="User has been added."
+     *         description="User registered successfully"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Internal server error."
+     *         description="Internal server error"
      *     )
      * )
      */
-    Flight::route("POST /register", function () {
-        $data = json_decode(file_get_contents('php://input'), true);
+    Flight::route('POST /register', function () {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
 
+        $data = json_decode(file_get_contents('php://input'), true);
         $response = Flight::auth_service()->register($data);
 
         if ($response['success']) {
@@ -60,26 +45,33 @@ Flight::group('/auth', function() {
 
     /**
      * @OA\Post(
-     *      path="/auth/login",
-     *      tags={"auth"},
-     *      summary="Login to system using email and password",
-     *      @OA\Response(
-     *           response=200,
-     *           description="Student data and JWT"
-     *      ),
-     *      @OA\RequestBody(
-     *          description="Credentials",
-     *          @OA\JsonContent(
-     *              required={"email","password"},
-     *              @OA\Property(property="email", type="string", example="demo@gmail.com", description="Student email address"),
-     *              @OA\Property(property="password", type="string", example="some_password", description="Student password")
-     *          )
-     *      )
+     *     path="/auth/login",
+     *     summary="Login a user",
+     *     tags={"auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", example="demo@gmail.com"),
+     *             @OA\Property(property="password", type="string", example="some_password")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Login failed"
+     *     )
      * )
      */
-    Flight::route('POST /login', function() {
-        $data = json_decode(file_get_contents('php://input'), true);
+    Flight::route('POST /login', function () {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
 
+        $data = json_decode(file_get_contents('php://input'), true);
         $response = Flight::auth_service()->login($data);
 
         if ($response['success']) {

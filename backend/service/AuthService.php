@@ -49,7 +49,7 @@ class AuthService extends BaseService {
     
         $entity['password_hash'] = password_hash($entity['password'], PASSWORD_BCRYPT);
     
-        // ✅ Defensive: Only unset if key exists
+        // Defensive: Only unset if key exists
         if (array_key_exists('password', $entity)) {
             unset($entity['password']);
         }

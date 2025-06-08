@@ -9,7 +9,7 @@ class UserService extends BaseService {
     protected $userDao;
 
     public function __construct() {
-        $this->userDao = new UserDao(); // For methods like getByEmail()
+        $this->userDao = new UserDao(); 
         parent::__construct($this->userDao);
     }
 
@@ -28,9 +28,8 @@ class UserService extends BaseService {
             throw new Exception("User with this email already exists.");
         }
 
-        // ✅ Hash the password and remove plain version
         $data['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        unset($data['password']); // never store plain passwords
+        unset($data['password']); 
 
         return $this->userDao->insert($data);
     }
@@ -86,5 +85,9 @@ class UserService extends BaseService {
      */
     public function updateProfile($userId, $data): mixed {
         return $this->userDao->update($userId, $data);
+    }
+
+    public function getStats() {
+        return $this->dao->getStats();
     }
 }

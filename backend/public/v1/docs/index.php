@@ -1,4 +1,3 @@
-<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,7 +47,6 @@
         ],
         layout: "StandaloneLayout"
       })
-      // End Swagger UI call region
       window.ui = ui
     }
   </script>

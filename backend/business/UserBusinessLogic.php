@@ -17,11 +17,8 @@ class UserBusinessLogic {
     }
 
     public function getAll(): mixed {
-        return $this->userService->getAll(); // or $this->dao->getAll() if you're using dao pattern
+        return $this->userService->getAll(); 
     }
-    
-    
-
 
     public function registerOrLoginUser($data) {
         $existingUser = $this->userService->getUserByEmail($data['email']);
@@ -50,4 +47,12 @@ class UserBusinessLogic {
     public function deleteUser($userId) {
         return $this->userService->delete($userId);
     }
+
+   
+
+    public function getStats() {
+        return $this->userService->getStats();
+    }
+    
+    
 }

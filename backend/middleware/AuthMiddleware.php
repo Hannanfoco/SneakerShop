@@ -17,7 +17,6 @@ class AuthMiddleware {
         try {
             $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
 
-            // Make decoded token available throughout app
             Flight::set('user', $decoded_token);
             Flight::set('jwt_token', $token);
         } catch (Exception $e) {
@@ -59,9 +58,7 @@ class AuthMiddleware {
         ];
     }
 
-    /**
-     * Optional: Checks for permission-based access (if implemented in your JWT)
-     */
+   
     public function authorizePermission($permission) {
         $user = Flight::get('user');
         if (

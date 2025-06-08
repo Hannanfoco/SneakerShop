@@ -45,10 +45,15 @@ class UserController {
     }
 
     public function getAllUsers() {
-        Flight::json($this->logic->getAll()); // ✅ RIGHT
+        $users = $this->logic->getAll();
+
+        foreach ($users as &$user) {
+            unset($user['password_hash']);
+        }
+
+        Flight::json($users);
     }
-    
-    
+
 
     public function getUsers() {
         $params = Flight::request()->query->getData();
@@ -66,8 +71,7 @@ class UserController {
             Flight::halt(404, 'User not found');
         }
     }
-    
-    
+
 
     public function updateUser() {
         $data = Flight::request()->data->getData();
@@ -100,4 +104,12 @@ class UserController {
             Flight::json(['success' => false, 'message' => $e->getMessage()], 400);
         }
     }
+
+   
+    public function getStats() {
+        $stats = $this->logic->getStats();
+        Flight::json(['success' => true, 'stats' => $stats]);
+    }
+    
+    
 }

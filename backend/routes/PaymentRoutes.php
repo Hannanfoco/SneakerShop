@@ -23,7 +23,7 @@ Flight::register('paymentController', 'PaymentController');
 Flight::route('POST /payment', function (): void {
     $token = Flight::request()->getHeader("Authentication");
     Flight::auth_middleware()->verifyToken($token);
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Only CUSTOMER
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Allow both
 
     Flight::paymentController()->createPayment();
 });
@@ -46,7 +46,7 @@ Flight::route('POST /payment', function (): void {
 Flight::route('GET /payment/@id', function ($id): void {
     $token = Flight::request()->getHeader("Authentication");
     Flight::auth_middleware()->verifyToken($token);
-    Flight::auth_middleware()->authorizeRole(Roles::CUSTOMER); //  Only CUSTOMER
+    Flight::auth_middleware()->authorizeRoles([Roles::CUSTOMER, Roles::ADMIN]); // ✅ Allow both
 
     Flight::paymentController()->getPaymentById($id);
 });
